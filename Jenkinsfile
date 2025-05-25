@@ -2,16 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Préparation') {
             steps {
-                // Cloner le dépôt
-                checkout scm
+                echo 'Nettoyage de la destination...'
+                sh 'sudo rm -rf /var/www/html/*'
             }
         }
-        stage('Deploy') {
+
+        stage('Déploiement') {
             steps {
-                // Copier le fichier App2/index.html vers /var/www/html/index.html
-                sh 'sudo cp App2/index.html /var/www/html/index.html'
+                echo 'Déploiement de l\'application...'
+                sh 'sudo cp -r App2/* /var/www/html/'
+            }
+        }
+
+        stage('Vérification') {
+            steps {
+                echo 'Contenu de /var/www/html/ :'
+                sh 'ls -l /var/www/html/'
             }
         }
     }
