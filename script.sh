@@ -1,3 +1,6 @@
 #!/bin/bash
-echo "Hello depuis Jenkins !"
+echo "=== DÉMARRAGE DU SCRIPT ==="
 date
+echo "Bonjour depuis Jenkins !"
+echo "=== FIN ==="
+
