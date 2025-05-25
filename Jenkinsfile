@@ -2,25 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Cloner le dépôt') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/oumarcoundoul/jenkins-test-script.git', branch: 'main'
+                // Cloner le dépôt
+                checkout scm
             }
         }
-
-        stage('Déploiement') {
+        stage('Deploy') {
             steps {
-                script {
-                    sh "echo '<h1>Déploiement Jenkins OK !</h1>' | sudo tee /var/www/html/index.html"
-                }
-            }
-        }
-
-        stage('Redémarrer Apache') {
-            steps {
-                script {
-                    sh "sudo systemctl restart httpd || echo 'httpd non installé, ignoré...'"
-                }
+                // Copier le fichier App2/index.html vers /var/www/html/index.html
+                sh 'sudo cp App2/index.html /var/www/html/index.html'
             }
         }
     }
