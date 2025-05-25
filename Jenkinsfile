@@ -11,8 +11,11 @@ pipeline {
 
         stage('Déploiement') {
             steps {
+                echo 'Vérification utilisateur'
+                sh 'whoami'
+                
                 echo 'Déploiement de l\'application...'
-                sh 'sudo cp -r App2/* /var/www/html/'
+                sh 'sudo cp -rv App2/* /var/www/html/'
             }
         }
 
