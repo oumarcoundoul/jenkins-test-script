@@ -2,21 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Préparation') {
+        stage('Cloner le dépôt') {
             steps {
-                echo 'Étape de préparation...'
-                sh 'chmod +x script.sh'
-                sh './script.sh'
+                git url: 'https://github.com/oumarcoundoul/jenkins-test-script.git', branch: 'main'
             }
         }
 
         stage('Déploiement') {
             steps {
-                echo 'Déploiement en cours...'
-                sh '''
-                mkdir -p /var/www/html/mon-app
-                cp index.html /var/www/html/mon-app/
-                '''
+                script {
+                    sh "echo '<h1>Déploiement Jenkins OK !</h1>' | sudo tee /var/www/html/index.html"
+                }
+            }
+        }
+
+        stage('Redémarrer Apache') {
+            steps {
+                script {
+                    sh "sudo systemctl restart httpd || echo 'httpd non installé, ignoré...'"
+                }
             }
         }
     }
